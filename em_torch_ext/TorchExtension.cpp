@@ -7,12 +7,12 @@
  **********************************************************************************************************************/
 #include "TorchExtension.h"
 
-//TODO: Create a Hashmap that holds the documentation for each function.
 
-torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& filtRads) {
-    //CHECK_TENSOR_IS_CUDA(sliceStack);
-    //CHECK_TENSOR_IS_CPU(filtRads);
-    auto f_copy = filtRads;
+torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& kernel) {
+    CHECK_CUDA_TENSOR(tensor)
+    CHECK_TENSOR_TYPE(tensor, torch::kF32)
+    CHECK_CPU_TENSOR(kernel)
+    auto f_copy = kernel;
     //TODO: Make this accept all types.
     auto fa = f_copy.accessor<long, 1>();
     int radX = static_cast<int>(fa[2]);
@@ -23,14 +23,15 @@ torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& fi
 
 
 torch::Tensor median_filter_v2(const torch::Tensor& tensor) {
-    //CHECK_TENSOR_IS_CUDA(sliceStack);
+    CHECK_CUDA_TENSOR(tensor)
+    CHECK_TENSOR_TYPE(tensor, torch::kF32)
     //Check if imStack has a float ScalarType
     return cuda_median_3d(tensor);
 }
 
-torch::Tensor median_filter_v3(const torch::Tensor& tensor, const std::vector<int>& filtRads) {
-    //CHECK_TENSOR_IS_CUDA(sliceStack);
-    return cuda_median_3d(tensor, filtRads[2], filtRads[1], filtRads[0]);
+torch::Tensor median_filter_v3(const torch::Tensor& tensor, const std::vector<int>& kernel) {
+    CHECK_CUDA_TENSOR(tensor);
+    return cuda_median_3d(tensor, kernel[2], kernel[1], kernel[0]);
 }
 
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {

@@ -11,6 +11,6 @@
 #define BLOCK_DIM_LEN 8
 #define MAX_GPU_ARRAY_LEN 10
 
-torch::Tensor cuda_median_3d(const torch::Tensor& imStack);
+torch::Tensor cuda_median_3d(const torch::Tensor& tensor);
 
-torch::Tensor cuda_median_3d(const torch::Tensor& imStack, const int radX, const int radY, const int radZ);
+torch::Tensor cuda_median_3d(const torch::Tensor& tensor, int radX, int radY, int radZ);

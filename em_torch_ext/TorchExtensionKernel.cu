@@ -166,28 +166,28 @@ void __median_3d(scalar_t* __restrict__ imStackIn, scalar_t* __restrict__ imStac
  * @param radZ the z-radius of the median filter.
  * @return the middle slice of the output of the median filter as an ATen CUDA Tensor with float data type.
  */
-torch::Tensor cuda_median_3d(const torch::Tensor& sliceStack) {
-    torch::Tensor out = at::zeros_like(sliceStack[0]);
-    const int32_t dimX = sliceStack.size(2), dimY = sliceStack.size(1), dimZ = sliceStack.size(0);
+torch::Tensor cuda_median_3d(const torch::Tensor& tensor) {
+    torch::Tensor out = at::zeros_like(tensor[0]);
+    const int32_t dimX = tensor.size(2), dimY = tensor.size(1), dimZ = tensor.size(0);
     const dim3 blockDim(BLOCK_DIM_LEN, BLOCK_DIM_LEN, 0);
     const dim3 gridDim((dimX / blockDim.x + ((dimX % blockDim.x) ? 1 : 0)),
             (dimY / blockDim.y + ((dimY % blockDim.y) ? 1 : 0)), 0);
 
-    AT_DISPATCH_FLOATING_TYPES(sliceStack.type(), "__median_3d", ([&] {
+    AT_DISPATCH_FLOATING_TYPES(tensor.type(), "__median_3d", ([&] {
         __median_3d<scalar_t><<<gridDim, blockDim>>>(
-            sliceStack.data<scalar_t>(),
-            out.data<scalar_t>(),
-            dimX,
-            dimY,
-            dimZ);
+                tensor.data<scalar_t>(),
+                out.data<scalar_t>(),
+                dimX,
+                dimY,
+                dimZ);
       }));
     return out;
 }
 
-torch::Tensor cuda_median_3d(const torch::Tensor& sliceStack, const int radX, const int radY, const int radZ) {
+torch::Tensor cuda_median_3d(const torch::Tensor& tensor, const int radX, const int radY, const int radZ) {
 
-    torch::Tensor out = at::zeros_like(sliceStack);
-    const int32_t dimX = sliceStack.size(2), dimY = sliceStack.size(1), dimZ = sliceStack.size(0);
+    torch::Tensor out = at::zeros_like(tensor);
+    const int32_t dimX = tensor.size(2), dimY = tensor.size(1), dimZ = tensor.size(0);
 
     const dim3 blockDim(BLOCK_DIM_LEN, BLOCK_DIM_LEN, BLOCK_DIM_LEN);
     const dim3 gridDim(
@@ -195,16 +195,16 @@ torch::Tensor cuda_median_3d(const torch::Tensor& sliceStack, const int radX, co
             (dimY/blockDim.y + ((dimY%blockDim.y)?1:0)),
             (dimZ/blockDim.z + ((dimZ%blockDim.z)?1:0)));
 
-    AT_DISPATCH_FLOATING_TYPES(sliceStack.type(), "__median_3d", ([&] {
+    AT_DISPATCH_FLOATING_TYPES(tensor.type(), "__median_3d", ([&] {
         __median_3d<scalar_t><<<gridDim, blockDim>>>(
-                        sliceStack.data<scalar_t>(),
-                        out.data<scalar_t>(),
-                        dimX,
-                        dimY,
-                        dimZ,
-                        radX,
-                        radY,
-                        radZ);
+                tensor.data<scalar_t>(),
+                out.data<scalar_t>(),
+                dimX,
+                dimY,
+                dimZ,
+                radX,
+                radY,
+                radZ);
     }));
     return out;
 }

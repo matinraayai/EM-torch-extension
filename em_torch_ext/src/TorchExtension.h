@@ -21,12 +21,9 @@
 
 //TODO: Create a Hashmap that holds the documentation for each function.
 
-
 torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& kernel);
 
-torch::Tensor median_filter_v2(const torch::Tensor& tensor);
-
-torch::Tensor median_filter_v3(const torch::Tensor& tensor, const std::vector<int>& kernel);
+torch::Tensor median_filter_v2(const torch::Tensor& tensor, const std::vector<int>& kernel);
 
 /*Image deformation model distance needed in em_pre.==================================================================*/
 //torch::Tensor idm_dist(const torch::Tensor& tensor1,

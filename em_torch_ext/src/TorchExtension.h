@@ -5,7 +5,6 @@
  * Based on the code from Pytorch's tutorials: https://github.com/pytorch/extension-cpp
  **********************************************************************************************************************/
 #pragma once
-#include <torch/extension.h>
 #include <vector>
 #include "TorchExtensionKernel.h"
 
@@ -26,9 +25,9 @@ torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& ke
 torch::Tensor median_filter_v2(const torch::Tensor& tensor, const std::vector<int>& kernel);
 
 /*Image deformation model distance needed in em_pre.==================================================================*/
-//torch::Tensor idm_dist(const torch::Tensor& tensor1,
-//                       const torch::Tensor& tensor2,
-//                       int patch_size,
-//                       int warp_size,
-//                       int step,
-//                       int metric);
+torch::Tensor idm(const torch::Tensor& tensor1,
+                  const torch::Tensor& tensor2,
+                  int patch_size,
+                  int warp_size,
+                  int step,
+                  int metric);

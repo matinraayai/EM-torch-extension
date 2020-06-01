@@ -13,7 +13,7 @@ REQUIRES = ['torch']
 AUTHOR = "Donglai Wei, Matin Raayai Ardakani"
 EMAIL = "weiddoonngglai@gmail.com, matinraayai@seas.harvard.edu"
 LICENSE = "Apache 2.0"
-SRC_DIR = "em_torch_ext"
+SRC_DIR = "em_torch_ext/src"
 EXTENSION = []
 EXTENSION += [CUDAExtension(NAME, [SRC_DIR + '/TorchExtension.cpp', SRC_DIR + '/TorchExtensionKernel.cu'])]
 

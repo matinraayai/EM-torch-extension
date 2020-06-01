@@ -12,12 +12,11 @@ torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& ke
     CHECK_CUDA_TENSOR(tensor)
     CHECK_TENSOR_TYPE(tensor, torch::kF32)
     CHECK_CPU_TENSOR(kernel)
-    auto f_copy = kernel;
     //TODO: Make this accept all types.
-    auto fa = f_copy.accessor<long, 1>();
-    int radX = static_cast<int>(fa[2]);
-    int radY = static_cast<int>(fa[1]);
-    int radZ = static_cast<int>(fa[0]);
+    auto ka = kernel.accessor<long, 1>();
+    int radX = static_cast<int>(ka[2]);
+    int radY = static_cast<int>(ka[1]);
+    int radZ = static_cast<int>(ka[0]);
     return cuda_median_3d(tensor, radX, radY, radZ);
 }
 
@@ -25,12 +24,12 @@ torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& ke
 torch::Tensor median_filter_v2(const torch::Tensor& tensor) {
     CHECK_CUDA_TENSOR(tensor)
     CHECK_TENSOR_TYPE(tensor, torch::kF32)
-    //Check if imStack has a float ScalarType
     return cuda_median_3d(tensor);
 }
 
 torch::Tensor median_filter_v3(const torch::Tensor& tensor, const std::vector<int>& kernel) {
-    CHECK_CUDA_TENSOR(tensor);
+    CHECK_CUDA_TENSOR(tensor)
+    CHECK_TENSOR_TYPE(tensor, torch::kF32)
     return cuda_median_3d(tensor, kernel[2], kernel[1], kernel[0]);
 }
 

@@ -10,12 +10,12 @@
 #include "TorchExtensionKernel.h"
 
 //Torch Tensor checks
-#define CHECK_TENSOR_IS_CUDA(x) TORCH_CHECK(x.device().is_cuda(), #x " must be a CUDA tensor")
-#define CHECK_TENSOR_IS_CPU(x) TORCH_CHECK(!x.device().is_cuda(), #x " must be a CPU tensor")
-#define CHECK_TENSOR_IS_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous")
+#define CHECK_TENSOR_IS_CUDA(x) TORCH_CHECK(x.device().is_cuda(), #x " must be a CUDA tensor.")
+#define CHECK_TENSOR_IS_CPU(x) TORCH_CHECK(!x.device().is_cuda(), #x " must be a CPU tensor.")
+#define CHECK_TENSOR_IS_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x " must be contiguous.")
 #define CHECK_CUDA_TENSOR(x) CHECK_TENSOR_IS_CUDA(x); CHECK_TENSOR_IS_CONTIGUOUS(x)
 #define CHECK_CPU_TENSOR(x) CHECK_TENSOR_IS_CPU(x); CHECK_TENSOR_IS_CONTIGUOUS(x)
-#define CHECK_TENSOR_TYPE(x, type) TORCH_CHECK(x.scalar_type() == type, #x " must be a " #type "tensor")
+#define CHECK_TENSOR_TYPE(x, type) TORCH_CHECK(x.scalar_type() == type, #x " must be a " #type " tensor.")
 
 /*3D Median filter needed by traditional deflicker in em_pre.=========================================================*/
 

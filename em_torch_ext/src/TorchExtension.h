@@ -5,8 +5,8 @@
  * Based on the code from Pytorch's tutorials: https://github.com/pytorch/extension-cpp
  **********************************************************************************************************************/
 #pragma once
-#include <vector>
 #include "TorchExtensionKernel.h"
+#include <vector>
 
 //Torch Tensor checks
 #define CHECK_TENSOR_IS_CUDA(x) TORCH_CHECK(x.device().is_cuda(), #x " must be a CUDA tensor.")
@@ -20,14 +20,14 @@
 
 //TODO: Create a Hashmap that holds the documentation for each function.
 
-torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& kernel);
+at::Tensor median_filter(const at::Tensor& tensor, const at::Tensor& kernel);
 
-torch::Tensor median_filter_v2(const torch::Tensor& tensor, const std::vector<int>& kernel);
+at::Tensor median_filter_v2(const at::Tensor& tensor, const std::vector<int>& kernel);
 
 /*Image deformation model distance needed in em_pre.==================================================================*/
-torch::Tensor idm(const torch::Tensor& tensor1,
-                  const torch::Tensor& tensor2,
-                  int patch_size,
-                  int warp_size,
-                  int step,
-                  int metric);
+at::Tensor idm(const at::Tensor& tensor1,
+               const at::Tensor& tensor2,
+               int patch_size,
+               int warp_size,
+               int patch_step,
+               int metric);

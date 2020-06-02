@@ -9,15 +9,15 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <torch/extension.h>
-#include <torch/torch.h>
+#include <limits>
 #define BLOCK_DIM_LEN 8
 #define MAX_GPU_ARRAY_LEN 30
 
-torch::Tensor cuda_median_3d(const torch::Tensor& tensor, int radX, int radY, int radZ);
+at::Tensor cuda_median_3d(const at::Tensor& tensor, int radX, int radY, int radZ);
 
-torch::Tensor cuda_idm(const torch::Tensor& tensor1,
-                       const torch::Tensor& tensor2,
-                       int patch_size,
-                       int warp_size,
-                       int step,
-                       int metric);
+at::Tensor cuda_idm(const at::Tensor& tensor1,
+                    const at::Tensor& tensor2,
+                    int patch_size,
+                    int warp_size,
+                    int patch_step,
+                    int metric);

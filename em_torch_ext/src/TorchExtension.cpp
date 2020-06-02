@@ -8,7 +8,7 @@
 #include "TorchExtension.h"
 
 
-torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& kernel) {
+at::Tensor median_filter(const at::Tensor& tensor, const at::Tensor& kernel) {
     CHECK_CUDA_TENSOR(tensor)
     CHECK_TENSOR_TYPE(tensor, torch::kF32)
     CHECK_CPU_TENSOR(kernel)
@@ -19,22 +19,22 @@ torch::Tensor median_filter(const torch::Tensor& tensor, const torch::Tensor& ke
     return cuda_median_3d(tensor, radX, radY, radZ);
 }
 
-torch::Tensor median_filter_v2(const torch::Tensor& tensor, const std::vector<int>& kernel) {
+at::Tensor median_filter_v2(const at::Tensor& tensor, const std::vector<int>& kernel) {
     CHECK_CUDA_TENSOR(tensor)
     CHECK_TENSOR_TYPE(tensor, torch::kF32)
     return cuda_median_3d(tensor, kernel[2], kernel[1], kernel[0]);
 }
 
-torch::Tensor idm(const torch::Tensor& tensor1,
-                  const torch::Tensor& tensor2,
-                  int patch_size,
-                  int warp_size,
-                  int step,
-                  int metric) {
+at::Tensor idm(const at::Tensor& tensor1,
+               const at::Tensor& tensor2,
+               int patch_size,
+               int warp_size,
+               int patch_step,
+               int metric) {
     CHECK_CUDA_TENSOR(tensor1)
     CHECK_CUDA_TENSOR(tensor2)
     TORCH_CHECK(tensor1.sizes() == tensor2.sizes(), "The input images must have the same dimensions.")
-    return cuda_idm(tensor1, tensor2, patch_size, warp_size, step, metric);
+    return cuda_idm(tensor1, tensor2, patch_size, warp_size, patch_step, metric);
 
 }
 
@@ -42,4 +42,5 @@ torch::Tensor idm(const torch::Tensor& tensor1,
 PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
     m.def("median_filter", &median_filter, "CUDA 3D median filter.");
     m.def("median_filter", &median_filter_v2, "CUDA 3D median filter.");
+    m.def("idm", &idm, "Image deformation model.");
 }

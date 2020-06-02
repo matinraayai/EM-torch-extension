@@ -71,7 +71,7 @@ scalar_t __patch_distance (const int A_x, const int A_y, const int B_x, const in
     scalar_t dist = 0, temp_h;
     int c, x, y, count = 0;
     /* only move around patchB */
-    int pre = im_col * im_row;
+    int pre = im_col*im_chan;
     scalar_t patch_sum = 0;
 
     switch(metric) {
@@ -81,8 +81,8 @@ scalar_t __patch_distance (const int A_x, const int A_y, const int B_x, const in
                 if((A_x + x) >= 0 && (A_y + y) >= 0 && (A_x + x) < im_row && (A_y + y) < im_col &&
                    (B_x + x) >= 0 && (B_y + y) >= 0 && (B_x + x) < im_row && (B_y + y) < im_col) {
                     for(c = 0; c < im_chan; c++) {
-                        temp_h = img1[c * pre + (A_y + y) * im_row + (A_x + x)] -
-                                 img2[c * pre + (B_y + y) * im_row + (B_x + x)];
+                        temp_h = img1[(A_x + x)*pre + (A_y + y)*im_chan + c] -
+                                 img2[(B_x + x)*pre + (B_y + y)*im_chan + c];
                         dist += fabsf(temp_h);
                         count++;
                     }
@@ -95,8 +95,8 @@ scalar_t __patch_distance (const int A_x, const int A_y, const int B_x, const in
                     if((A_x + x)>=0 && (A_y + y)>=0 && (A_x + x)<im_row && (A_y + y)<im_col
                        && (B_x + x)>=0 && (B_y + y)>=0 && (B_x + x)<im_row && (B_y + y)<im_col){
                         for(c=0; c<im_chan; c++){
-                            temp_h = img1[c * pre + (A_y + y) * im_row + (A_x + x)] -
-                                     img2[c * pre + (B_y + y) * im_row + (B_x + x)];
+                            temp_h = img1[(A_x + x)*pre + (A_y + y)*im_chan + c] -
+                                     img2[(A_x + x)*pre + (A_y + y)*im_chan + c];
                             dist += fabsf(temp_h);
                             patch_sum += img1[(A_x + x)*pre + (A_y + y)*im_chan + c];
                             //dist+=temp_h*temp_h;
@@ -138,7 +138,7 @@ void __idm_dist(scalar_t* img1, scalar_t* img2, scalar_t* dis,
                 }
             }
         }
-        dis[dis_y * outX + dis_x] = best_dis;
+        dis[dis_x * outY + dis_y] = best_dis;
     }
 }
 

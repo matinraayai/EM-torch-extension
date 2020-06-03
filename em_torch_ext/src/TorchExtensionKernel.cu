@@ -71,7 +71,7 @@ scalar_t __patch_distance (const int A_x, const int A_y, const int B_x, const in
     scalar_t dist = 0, temp_h;
     int c, x, y, count = 0;
     /* only move around patchB */
-    int pre = im_col*im_chan;
+    int pre = im_col * im_chan;
     scalar_t patch_sum = 0;
 
     switch(metric) {

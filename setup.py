@@ -7,7 +7,7 @@
 from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension
 NAME = "em_torch_ext"
-VERSION = "0.1"
+VERSION = "1.0"
 DESCR = "Pytorch C++/CUDA extensions needed for other EM Python packages."
 REQUIRES = ['torch']
 AUTHOR = "Donglai Wei, Matin Raayai Ardakani"

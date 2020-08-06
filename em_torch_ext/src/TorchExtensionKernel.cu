@@ -178,9 +178,9 @@ at::Tensor cuda_idm(const at::Tensor& tensor1,
     const int outX = static_cast<int>(ceil(dimX) / static_cast<float>(patch_step));
     at::Tensor out = at::zeros({outX, outY},
                                at::TensorOptions().dtype(at::kFloat).device(at::kCUDA));
-    const dim3 blockDim(BLOCK_DIM_LEN, BLOCK_DIM_LEN, 1);
+    const dim3 blockDim(16, 16);
     const dim3 gridDim((outX / blockDim.x + ((outX % blockDim.x) ? 1 : 0)),
-                       (outY / blockDim.y + ((outY % blockDim.y) ? 1 : 0)), 1);
+                       (outY / blockDim.y + ((outY % blockDim.y) ? 1 : 0)));
 
     AT_DISPATCH_FLOATING_TYPES(tensor1.scalar_type(), "__idm_dist", ([&] {
         __idm_dist<scalar_t><<<gridDim, blockDim>>>(
